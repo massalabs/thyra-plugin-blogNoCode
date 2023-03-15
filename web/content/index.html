@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>GrapesJS Preset Webpage</title>
+        <link
+            href="https://unpkg.com/grapesjs/dist/css/grapes.min.css"
+            rel="stylesheet" />
+        <link href="dist/grapesjs-preset-webpage.min.css" rel="stylesheet" />
+        <script src="https://unpkg.com/grapesjs"></script>
+        <script src="https://unpkg.com/grapesjs-preset-webpage@1.0.2"></script>
+        <script src="https://unpkg.com/grapesjs-blocks-basic@1.0.1"></script>
+        <script src="https://unpkg.com/grapesjs-plugin-forms@2.0.5"></script>
+        <script src="https://unpkg.com/grapesjs-component-countdown@1.0.1"></script>
+        <script src="https://unpkg.com/grapesjs-plugin-export@1.0.11"></script>
+        <script src="https://unpkg.com/grapesjs-tabs@1.0.6"></script>
+        <script src="https://unpkg.com/grapesjs-custom-code@1.0.1"></script>
+        <script src="https://unpkg.com/grapesjs-touch@0.1.1"></script>
+        <script src="https://unpkg.com/grapesjs-parser-postcss@1.0.1"></script>
+        <script src="https://unpkg.com/grapesjs-tooltip@0.1.7"></script>
+        <script src="https://unpkg.com/grapesjs-tui-image-editor@0.1.3"></script>
+        <script src="https://unpkg.com/grapesjs-typed@1.0.5"></script>
+        <script src="https://unpkg.com/grapesjs-style-bg@2.0.1"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.6.0/jszip.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip-utils/0.0.2/jszip-utils.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+        <script>
+            function openModal() {
+                document.getElementById("myModal").style.display = "block";
+            }
+
+            function closeModal() {
+                document.getElementById("myModal").style.display = "none";
+            }
+
+            function handleClick() {
+                let zip = new JSZip();
+
+                const addImport = '<link href="./style.css" rel="stylesheet"/>';
+
+                const htmlContent = editor.getHtml();
+                const contentWithImport = addImport + htmlContent;
+
+                zip.file("index.html", contentWithImport);
+                zip.file("style.css", editor.getCss());
+
+                // Download the ZIP archive
+                // zip.generateAsync({ type: "blob" }).then(function (blob) {
+                //     saveAs(blob, "my-page.zip");
+                // });
+
+                openModal();
+            }
+        </script>
+        <style>
+            body,
+            html {
+                height: 100%;
+                margin: 0;
+            }
+
+            .modal {
+                display: none;
+                position: fixed;
+                z-index: 99;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                overflow: auto;
+                background-color: rgba(0, 0, 0, 0.4);
+            }
+
+            .modal-content {
+                background-color: #fefefe;
+                margin: 15% auto;
+                padding: 20px;
+                border: 1px solid #888;
+                width: 80%;
+            }
+
+            .close {
+                color: #aaa;
+                float: right;
+                font-size: 28px;
+                font-weight: bold;
+            }
+
+            .close:hover,
+            .close:focus {
+                color: black;
+                text-decoration: none;
+                cursor: pointer;
+            }
+        </style>
+    </head>
+    <body>
+        <div
+            style="
+                position: absolute;
+                left: 58%;
+                z-index: 99;
+                display: flex;
+                flex-direction: row;
+                cursor: pointer;
+            "
+            onmouseover="cursor"
+            onclick="handleClick()">
+            <img src="./logo.png" alt="massa" width="auto" height="40px" />
+        </div>
+
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <p>Modal Content Goes Here</p>
+            </div>
+        </div>
+
+        <div id="gjs" style="height: 0px; overflow: hidden">
+            <div class="panel">
+                <h1 class="welcome">Welcome to</h1>
+                <div class="big-title">
+                    <svg class="logo" viewBox="0 0 100 100">
+                        <path
+                            d="M40 5l-12.9 7.4 -12.9 7.4c-1.4 0.8-2.7 2.3-3.7 3.9 -0.9 1.6-1.5 3.5-1.5 5.1v14.9 14.9c0 1.7 0.6 3.5 1.5 5.1 0.9 1.6 2.2 3.1 3.7 3.9l12.9 7.4 12.9 7.4c1.4 0.8 3.3 1.2 5.2 1.2 1.9 0 3.8-0.4 5.2-1.2l12.9-7.4 12.9-7.4c1.4-0.8 2.7-2.2 3.7-3.9 0.9-1.6 1.5-3.5 1.5-5.1v-14.9 -12.7c0-4.6-3.8-6-6.8-4.2l-28 16.2" />
+                    </svg>
+                    <span>GrapesJS</span>
+                </div>
+                <div class="description">
+                    This is a demo content from index.html. For the development,
+                    you shouldn't edit this file, instead you can copy and
+                    rename it to _index.html, on next server start the new file
+                    will be served, and it will be ignored by git.
+                </div>
+            </div>
+            <style>
+                .panel {
+                    width: 90%;
+                    max-width: 700px;
+                    border-radius: 3px;
+                    padding: 30px 20px;
+                    margin: 150px auto 0px;
+                    background-color: #d983a6;
+                    box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.25);
+                    color: rgba(255, 255, 255, 0.75);
+                    font: caption;
+                    font-weight: 100;
+                }
+
+                .welcome {
+                    text-align: center;
+                    font-weight: 100;
+                    margin: 0px;
+                }
+
+                .logo {
+                    width: 70px;
+                    height: 70px;
+                    vertical-align: middle;
+                }
+
+                .logo path {
+                    pointer-events: none;
+                    fill: none;
+                    stroke-linecap: round;
+                    stroke-width: 7;
+                    stroke: #fff;
+                }
+
+                .big-title {
+                    text-align: center;
+                    font-size: 3.5rem;
+                    margin: 15px 0;
+                }
+
+                .description {
+                    text-align: justify;
+                    font-size: 1rem;
+                    line-height: 1.5rem;
+                }
+            </style>
+        </div>
+
+        <script type="text/javascript">
+            setTimeout(() => {
+                window.editor = grapesjs.init({
+                    height: "100%",
+                    showOffsets: true,
+                    noticeOnUnload: false,
+                    storageManager: false,
+                    container: "#gjs",
+                    fromElement: true,
+
+                    plugins: [
+                        "gjs-blocks-basic",
+                        "grapesjs-plugin-forms",
+                        "grapesjs-component-countdown",
+                        "grapesjs-plugin-export",
+                        "grapesjs-tabs",
+                        "grapesjs-custom-code",
+                        "grapesjs-touch",
+                        "grapesjs-parser-postcss",
+                        "grapesjs-tooltip",
+                        "grapesjs-tui-image-editor",
+                        "grapesjs-typed",
+                        "grapesjs-style-bg",
+                        "grapesjs-preset-webpage",
+                    ],
+                    pluginsOpts: {
+                        "grapesjs-preset-webpage": {},
+                    },
+                });
+            });
+        </script>
+    </body>
+</html>
