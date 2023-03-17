@@ -16,18 +16,11 @@ import (
 const logoFile = "logo_massa.webp"
 
 func killTime(quit chan bool) {
+	fmt.Fprintf("Plugin is initializing.")
 
-	fmt.Fprintf(os.Stdout, "Plugin is initializing.\n")
+	<-quit // Wait for a value to be sent on the quit channel
 
-	for {
-		select {
-
-		case <-quit:
-			fmt.Fprintf(os.Stdout, "Plugin is shutting down.\nBye!\n")
-
-			return
-		}
-	}
+	fmt.Fprintf(os.Stdout, "Plugin is shutting down.\nBye!\n")
 }
 
 func initializeAPI() *restapi.Server {
