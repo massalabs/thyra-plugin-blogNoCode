@@ -16,7 +16,7 @@ import (
 const logoFile = "logo_massa.webp"
 
 func killTime(quit chan bool) {
-	fmt.Fprintf("Plugin is initializing.")
+	fmt.Fprintf(os.Stdout, "Plugin is initializing.")
 
 	<-quit // Wait for a value to be sent on the quit channel
 
