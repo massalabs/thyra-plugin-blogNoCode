@@ -162,7 +162,7 @@ async function deployWebsiteAndUpload() {
     document.getElementById("loader").style.display = "flex";
     await putUpload(bodyFormData);
     document.getElementById("website-upload").style.display = "flex";
-    document.getElementById("loader").style.display = "flex";
+    document.getElementById("loader").style.display = "none";
 }
 
 function setMaxSizeLabel() {
