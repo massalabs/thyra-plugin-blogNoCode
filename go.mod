@@ -1,4 +1,4 @@
-module github.com/massalabs/thyra-plugin-hello-world
+module github.com/massalabs/thyra-plugin-blogNoCode
 
 go 1.19
 

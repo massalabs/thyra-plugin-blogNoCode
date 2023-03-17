@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 
 	"github.com/go-openapi/runtime/middleware"
-	"github.com/massalabs/thyra-plugin-hello-world/api/server/restapi/operations"
+	"github.com/massalabs/thyra-plugin-blogNoCode/api/server/restapi/operations"
 	"github.com/massalabs/thyra-plugin-wallet/pkg/openapi"
 )
 

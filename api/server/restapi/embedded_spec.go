@@ -29,8 +29,8 @@ func init() {
   ],
   "swagger": "2.0",
   "info": {
-    "description": "Hello world plugin API.",
-    "title": "thyra-plugin - Hello world",
+    "description": "BlogNoCode plugin API.",
+    "title": "thyra-plugin - BlogNoCode",
     "version": "0.0.0"
   },
   "paths": {
@@ -40,43 +40,6 @@ func init() {
         "responses": {
           "301": {
             "description": "Move to the default endpoint"
-          }
-        }
-      }
-    },
-    "/api/hello": {
-      "put": {
-        "produces": [
-          "application/json"
-        ],
-        "operationId": "hello",
-        "parameters": [
-          {
-            "type": "string",
-            "description": "the name of the person to be greeted.",
-            "name": "name",
-            "in": "query"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Greeting content.",
-            "schema": {
-              "type": "object",
-              "required": [
-                "message"
-              ],
-              "properties": {
-                "message": {
-                  "description": "Greeting message.",
-                  "type": "string",
-                  "x-nullable": false
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error - The server has encountered a situation it does not know how to handle."
           }
         }
       }
@@ -125,8 +88,8 @@ func init() {
   ],
   "swagger": "2.0",
   "info": {
-    "description": "Hello world plugin API.",
-    "title": "thyra-plugin - Hello world",
+    "description": "BlogNoCode plugin API.",
+    "title": "thyra-plugin - BlogNoCode",
     "version": "0.0.0"
   },
   "paths": {
@@ -136,43 +99,6 @@ func init() {
         "responses": {
           "301": {
             "description": "Move to the default endpoint"
-          }
-        }
-      }
-    },
-    "/api/hello": {
-      "put": {
-        "produces": [
-          "application/json"
-        ],
-        "operationId": "hello",
-        "parameters": [
-          {
-            "type": "string",
-            "description": "the name of the person to be greeted.",
-            "name": "name",
-            "in": "query"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Greeting content.",
-            "schema": {
-              "type": "object",
-              "required": [
-                "message"
-              ],
-              "properties": {
-                "message": {
-                  "description": "Greeting message.",
-                  "type": "string",
-                  "x-nullable": false
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error - The server has encountered a situation it does not know how to handle."
           }
         }
       }
