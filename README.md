@@ -15,7 +15,7 @@ plugin.RegisterPlugin(listener, plugin.Info{
 These commands will help you build and manually install this plugin (for development purpose only):
 
 ```shell
-    go build -o blogNoCode thyra-plugin-BlogNoCode.go
+    go build -o blogNoCode thyra-plugin-blogNoCode.go
     mkdir -p ~/.config/thyra/my_plugins/blogNoCode
     mv blogNoCode ~/.config/thyra/my_plugins/blogNoCode
 ```
