@@ -75,15 +75,25 @@ async function callTx() {
 // Append wallet accounts in popover component list
 async function feedWallet(w) {
     let counter = 0;
-    for (const wallet of w) {
+    if (w.length != 0) {
+        for (const wallet of w) {
+            $("#wallet-list").append(
+                "<li class='wallet-item'><a class='wallet-link' id='wallet-link-" +
+                    counter +
+                    "' onclick='changeDefaultWallet(event)' href='#'>" +
+                    wallet.nickname +
+                    "</a></li>"
+            );
+            counter++;
+        }
+        return;
+    }
+    
+    if (w.length == 0) {
+        console.log("no wallet");
         $("#wallet-list").append(
-            "<li class='wallet-item'><a class='wallet-link' id='wallet-link-" +
-                counter +
-                "' onclick='changeDefaultWallet(event)' href='#'>" +
-                wallet.nickname +
-                "</a></li>"
+            "<li class='wallet-item'><a class='wallet-link' id='wallet-link-1' href='#'>No wallet</a></li>"
         );
-        counter++;
     }
 }
 
