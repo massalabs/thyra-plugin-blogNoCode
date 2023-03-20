@@ -13,7 +13,7 @@ import (
 	"github.com/massalabs/thyra-plugin-blogNoCode/web"
 )
 
-const logoFile = "logo_massa.webp"
+const logoFile = "web/logo_web.svg"
 
 func killTime(quit chan bool) {
 	fmt.Fprintf(os.Stdout, "Plugin is initializing.")
