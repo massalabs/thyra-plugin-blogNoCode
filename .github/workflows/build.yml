@@ -41,7 +41,7 @@ jobs:
             target: darwin
           - arch: arm64
             target: darwin
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     env:
       TARGET_NAME: thyra-plugin-BlogNoCode_${{ matrix.target }}-${{ matrix.arch }}
     steps:
