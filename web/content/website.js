@@ -6,11 +6,9 @@ let uploadable = false;
 
 // INIT
 setMaxSizeLabel();
-getWallets();
+feedWallet();
 getWebsiteDeployerSC();
 initializeDefaultWallet();
-
-//const eventManager = new EventManager();
 
 async function onSubmitDeploy(txType = "deployWebsiteAndUpload") {
     setTxType(txType);
@@ -24,6 +22,63 @@ async function getWebsiteDeployerSC() {
         //  errorAlert(getErrorMessage("Wallet-5001"));
         return;
     }
+}
+
+// get the address of a wallet nickname
+function getAddressByNickname(wallets, nickname) {
+    for (let i = 0; i < wallets.length; i++) {
+        if (wallets[i].nickname === nickname) {
+            return wallets[i].address;
+        }
+    }
+    return null; // Return null if the nickname is not found
+}
+
+//get the balance of an Address
+async function getBalanceOf(address) {
+    const options = {
+        method: "GET",
+        url: `http://my.massa/massa/addresses?addresses=${address}`,
+        mode: "no-cors",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        data: {},
+        withCredentials: false,
+    };
+
+    try {
+        const response = await axios.request(options);
+        return response.data.addressesAttributes;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+async function getBalanceOfNickname(nickname) {
+    const wallets = await getWallets();
+
+    const walletAddress = await getAddressByNickname(wallets, nickname);
+
+    const balanceObj = await getBalanceOf(walletAddress);
+
+    const balanceArr = Object.values(balanceObj);
+
+    const balance = Math.round(parseFloat(balanceArr[0].balance.pending));
+
+    return balance;
+}
+
+async function isEnoughBalance() {
+    const defaultWallet = getDefaultWallet();
+    const balance = await getBalanceOfNickname(defaultWallet);
+    if (balance < 100) {
+        document.getElementById("balance-error").style.display = "flex";
+
+        return false;
+    }
+    document.getElementById("balance-error").style.display = "none";
+    return true;
 }
 
 // Write the default wallet text in wallet popover component
@@ -62,8 +117,20 @@ function setTxType(txType) {
 
 async function callTx() {
     let wallet = getDefaultWallet();
+
+    const isEnoughMassa = await isEnoughBalance();
+
+    if (isEnoughMassa === false) {
+        console.log("not enough massa");
+        return;
+    }
+
     if (wallet === "") {
         console.log("no wallet");
+        return;
+    }
+    if (uploadable === false) {
+        console.log("wrong dns name");
         return;
     }
 
@@ -73,7 +140,8 @@ async function callTx() {
 }
 
 // Append wallet accounts in popover component list
-async function feedWallet(w) {
+async function feedWallet() {
+    const w = await getWallets();
     let counter = 0;
     if (w.length != 0) {
         for (const wallet of w) {
@@ -86,23 +154,25 @@ async function feedWallet(w) {
             );
             counter++;
         }
+        document.getElementById("create-wallet").style.display = "none";
         return;
     }
-    
+
     if (w.length == 0) {
         console.log("no wallet");
         $("#wallet-list").append(
             "<li class='wallet-item'><a class='wallet-link' id='wallet-link-1' href='#'>No wallet</a></li>"
         );
+        document.getElementById("create-wallet").style.display = "flex";
     }
 }
 
 // Handle popover click & update default wallet in cookies
-function changeDefaultWallet(event) {
+async function changeDefaultWallet(event) {
+    gWallets = await getWallets();
     const idElementClicked = event.target.id;
     const newDefaultWalletId = idElementClicked.split("-")[2];
     const walletName = gWallets[newDefaultWalletId].nickname;
-
     document.cookie = "defaultWallet=" + walletName;
     $(".popover__title").html(walletName);
 
@@ -110,35 +180,28 @@ function changeDefaultWallet(event) {
 }
 
 async function getWallets() {
-    axios
-        .get("http://my.massa/mgmt/wallet")
-        .then((resp) => {
-            if (resp) {
-                gWallets = resp.data;
-                feedWallet(gWallets);
-            }
-        })
-        .catch((error) => {
-            console.error(error);
-        });
+    try {
+        const resp = await axios.get("http://my.massa/mgmt/wallet");
+        if (resp) {
+            const gWallets = resp.data;
+            return gWallets;
+        }
+    } catch (error) {
+        console.error(error);
+    }
 }
 
 //check if input string is valid
-$(".website-dns input").on("change", function () {
+$("#websiteName").on("change", function () {
     let str = $(".website-dns input").val();
     let pattern = new RegExp("^[a-z0-9]+$");
     let testPattern = pattern.test(str);
-
     if (testPattern == false) {
         uploadable = false;
-        document.getElementsByClassName("dns-error")[0].style.display = "flex";
-        document.getElementById("website-upload").style.display = "none";
-        document.getElementById("website-upload-refuse").style.display = "flex";
+        document.getElementById("dns-error").style.display = "flex";
     } else {
         uploadable = true;
-        document.getElementsByClassName("dns-error")[0].style.display = "none";
-        document.getElementById("website-upload").style.display = "flex";
-        document.getElementById("website-upload-refuse").style.display = "none";
+        document.getElementById("dns-error").style.display = "none";
     }
 });
 
