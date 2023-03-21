@@ -55,8 +55,8 @@ func main() {
 	}
 
 	PluginAuthor := "Massalabs"
-	PluginName := "Blog No Code"
-	PluginDescription := "Create and deploy websites"
+	PluginName := "Website Builder No-Code"
+	PluginDescription := "Build and deploy simple websites on Massa blockchain with 0 coding skills"
 
 	plugin.RegisterPlugin(listener, plugin.Info{
 		Name: PluginName, Author: PluginAuthor,
