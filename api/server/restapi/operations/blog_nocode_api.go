@@ -55,6 +55,7 @@ func NewBlogNocodeAPI(spec *loads.Document) *BlogNocodeAPI {
 		TextWebpProducer: runtime.ProducerFunc(func(w io.Writer, data interface{}) error {
 			return errors.NotImplemented("textWebp producer has not yet been implemented")
 		}),
+		XMLProducer: runtime.XMLProducer(),
 
 		DefaultPageHandler: DefaultPageHandlerFunc(func(params DefaultPageParams) middleware.Responder {
 			return middleware.NotImplemented("operation DefaultPage has not yet been implemented")
@@ -112,6 +113,9 @@ type BlogNocodeAPI struct {
 	// TextWebpProducer registers a producer for the following mime types:
 	//   - text/webp
 	TextWebpProducer runtime.Producer
+	// XMLProducer registers a producer for the following mime types:
+	//   - application/svg+xml
+	XMLProducer runtime.Producer
 
 	// DefaultPageHandler sets the operation handler for the default page operation
 	DefaultPageHandler DefaultPageHandler
@@ -208,6 +212,9 @@ func (o *BlogNocodeAPI) Validate() error {
 	if o.TextWebpProducer == nil {
 		unregistered = append(unregistered, "TextWebpProducer")
 	}
+	if o.XMLProducer == nil {
+		unregistered = append(unregistered, "XMLProducer")
+	}
 
 	if o.DefaultPageHandler == nil {
 		unregistered = append(unregistered, "DefaultPageHandler")
@@ -273,6 +280,8 @@ func (o *BlogNocodeAPI) ProducersFor(mediaTypes []string) map[string]runtime.Pro
 			result["application/json"] = o.JSONProducer
 		case "text/webp":
 			result["text/webp"] = o.TextWebpProducer
+		case "application/svg+xml":
+			result["application/svg+xml"] = o.XMLProducer
 		}
 
 		if p, ok := o.customProducers[mt]; ok {

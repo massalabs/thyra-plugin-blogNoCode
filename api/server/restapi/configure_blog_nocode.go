@@ -13,8 +13,6 @@ import (
 	"github.com/massalabs/thyra-plugin-blogNoCode/api/server/restapi/operations"
 )
 
-//go:generate swagger generate server --target ..\..\server --name BlogNocode --spec ..\..\swagger.yml --principal interface{} --exclude-main
-
 func configureFlags(api *operations.BlogNocodeAPI) {
 	// api.CommandLineOptionsGroups = []swag.CommandLineOptionsGroup{ ... }
 }
