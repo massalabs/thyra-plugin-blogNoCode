@@ -1,0 +1,40 @@
+consumes:
+  - application/json
+info:
+  description: BlogNoCode plugin API.
+  title: thyra-plugin - BlogNoCode
+  version: 0.0.0
+produces:
+  - application/json
+schemes:
+  - http
+swagger: "2.0"
+paths:
+  /:
+    get:
+      operationId: defaultPage
+      responses:
+        "301":
+          description: Move to the default endpoint
+  /web/{resource}:
+    get:
+      operationId: web
+      produces:
+        - application/json
+        - text/javascript
+        - text/html
+        - text/css
+        - text/webp
+        - image/png
+        - application/svg+xml
+      parameters:
+        - in: path
+          name: resource
+          type: string
+          required: true
+          description: Website resource.
+      responses:
+        "200":
+          description: Page found
+        "404":
+          description: Resource not found.
