@@ -38,7 +38,7 @@ function getAddressByNickname(wallets, nickname) {
 async function getBalanceOf(address) {
     const options = {
         method: "GET",
-        url: `http://my.massa/massa/addresses?addresses=${address}`,
+        url: `/massa/addresses?addresses=${address}`,
         mode: "no-cors",
         headers: {
             "Content-Type": "application/json",
@@ -143,7 +143,7 @@ async function callTx() {
 async function feedWallet() {
     const w = await getWallets();
     let counter = 0;
-    if (w.length != 0) {
+    if (w?.length) {
         for (const wallet of w) {
             $("#wallet-list").append(
                 "<li class='wallet-item'><a class='wallet-link' id='wallet-link-" +
@@ -158,7 +158,7 @@ async function feedWallet() {
         return;
     }
 
-    if (w.length == 0) {
+    if (w?.length === 0) {
         console.log("no wallet");
         $("#wallet-list").append(
             "<li class='wallet-item'><a class='wallet-link' id='wallet-link-1' href='#'>No wallet</a></li>"
@@ -181,7 +181,7 @@ async function changeDefaultWallet(event) {
 
 async function getWallets() {
     try {
-        const resp = await axios.get("http://my.massa/mgmt/wallet");
+        const resp = await axios.get("/mgmt/wallet");
         if (resp) {
             const gWallets = resp.data;
             return gWallets;
@@ -208,7 +208,7 @@ $("#websiteName").on("change", function () {
 async function putUpload(bodyFormData) {
     try {
         const response = await axios({
-            url: `http://my.massa/websiteCreator/prepare`,
+            url: `/websiteCreator/prepare`,
             method: "put",
             data: bodyFormData,
             headers: {
