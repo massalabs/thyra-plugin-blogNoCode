@@ -60,6 +60,9 @@ jobs:
       - name: Zip binary
         if: ${{ inputs.tag_name != '' }}
         run: zip $TARGET_NAME.zip $TARGET_NAME${{ matrix.ext }}
+      - name: Print archive hash
+        if: ${{ inputs.tag_name != '' }}
+        run: md5sum $TARGET_NAME.zip
       - name: Create release and upload binaries
         if: ${{ inputs.tag_name != '' }}
         uses: softprops/action-gh-release@v1
